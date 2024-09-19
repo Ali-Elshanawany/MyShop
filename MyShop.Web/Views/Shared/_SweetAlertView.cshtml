@@ -1,0 +1,39 @@
+﻿@{
+
+    if (TempData["Created"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Record Added Successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+    else if (TempData["Updated"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Record Updated Successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+    else if (TempData["Deleted"] != null)
+    {
+        <script>
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Record Deleted Successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+}
