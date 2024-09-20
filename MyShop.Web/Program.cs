@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using MyShop.DataAccess.Repositories;
+using MyShop.Entities.Repositories;
 using MyShop.Web.Data;
 
 namespace MyShop.Web;
@@ -13,6 +15,8 @@ public class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
         builder.Services.AddDbContext<ApplicationDbContext>
@@ -38,7 +42,7 @@ public class Program
 
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
     }

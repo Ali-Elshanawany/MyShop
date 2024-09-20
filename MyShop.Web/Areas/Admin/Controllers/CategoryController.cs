@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyShop.Entities.Models;
+using MyShop.Entities.Repositories;
 using MyShop.Web.Data;
-using MyShop.Web.Models;
 
-namespace MyShop.Web.Controllers;
+namespace MyShop.Web.Areas.Admin.Controllers;
 
+[Area("Admin")]
 public class CategoryController : Controller
 {
 
-    private readonly ApplicationDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CategoryController(ApplicationDbContext context)
+    public CategoryController(IUnitOfWork unitOfWork)
     {
-        _context = context;
+        _unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        IEnumerable<Category> categories = _context.Categories.ToList();
+        IEnumerable<Category> categories = _unitOfWork.CategoryRepository.GetAll();
 
         return View(categories);
     }
@@ -37,8 +39,8 @@ public class CategoryController : Controller
         {
             return View(category);
         }
-        _context.Categories.Add(category);
-        _context.SaveChanges();
+        _unitOfWork.CategoryRepository.Add(category);
+        _unitOfWork.complete();
         //ViewBag.Created = true;
         TempData["Created"] = "Created";
         return RedirectToAction("Index");
@@ -50,7 +52,7 @@ public class CategoryController : Controller
         if (id == null || id == 0)
             return NotFound();
 
-        var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
 
         return View(category);
 
@@ -61,8 +63,8 @@ public class CategoryController : Controller
     public IActionResult Edit(Category category)
     {
 
-        _context.Categories.Update(category);
-        _context.SaveChanges();
+        _unitOfWork.CategoryRepository.Update(category);
+        _unitOfWork.complete();
         TempData["Updated"] = "Updated";
         return RedirectToAction("Index");
 
@@ -74,7 +76,7 @@ public class CategoryController : Controller
         if (id == null || id == 0)
             return NotFound();
 
-        var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
 
         return View(category);
 
@@ -84,13 +86,13 @@ public class CategoryController : Controller
     public IActionResult RemoveCategory(int? id)
     {
 
-        var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
 
         if (category == null)
             return NotFound();
 
-        _context.Categories.Remove(category);
-        _context.SaveChanges();
+        _unitOfWork.CategoryRepository.Remove(category);
+        _unitOfWork.complete();
         //ViewBag.Deleted = true;
         TempData["Deleted"] = "Deleted";
         return RedirectToAction("Index");
