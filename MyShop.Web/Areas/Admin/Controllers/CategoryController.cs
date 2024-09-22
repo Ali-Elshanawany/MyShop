@@ -18,7 +18,7 @@ public class CategoryController : Controller
 
     public IActionResult Index()
     {
-        IEnumerable<Category> categories = _unitOfWork.CategoryRepository.GetAll();
+        IEnumerable<Category> categories = _unitOfWork.category.GetAll();
 
         return View(categories);
     }
@@ -39,7 +39,7 @@ public class CategoryController : Controller
         {
             return View(category);
         }
-        _unitOfWork.CategoryRepository.Add(category);
+        _unitOfWork.category.Add(category);
         _unitOfWork.complete();
         //ViewBag.Created = true;
         TempData["Created"] = "Created";
@@ -52,7 +52,7 @@ public class CategoryController : Controller
         if (id == null || id == 0)
             return NotFound();
 
-        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
+        var category = _unitOfWork.category.GetFirstOrDefault(x => x.Id == id);
 
         return View(category);
 
@@ -63,7 +63,7 @@ public class CategoryController : Controller
     public IActionResult Edit(Category category)
     {
 
-        _unitOfWork.CategoryRepository.Update(category);
+        _unitOfWork.category.Update(category);
         _unitOfWork.complete();
         TempData["Updated"] = "Updated";
         return RedirectToAction("Index");
@@ -76,7 +76,7 @@ public class CategoryController : Controller
         if (id == null || id == 0)
             return NotFound();
 
-        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
+        var category = _unitOfWork.category.GetFirstOrDefault(x => x.Id == id);
 
         return View(category);
 
@@ -86,12 +86,12 @@ public class CategoryController : Controller
     public IActionResult RemoveCategory(int? id)
     {
 
-        var category = _unitOfWork.CategoryRepository.GetFirstOrDefault(x => x.Id == id);
+        var category = _unitOfWork.category.GetFirstOrDefault(x => x.Id == id);
 
         if (category == null)
             return NotFound();
 
-        _unitOfWork.CategoryRepository.Remove(category);
+        _unitOfWork.category.Remove(category);
         _unitOfWork.complete();
         //ViewBag.Deleted = true;
         TempData["Deleted"] = "Deleted";

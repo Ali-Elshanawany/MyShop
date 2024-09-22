@@ -1,10 +1,8 @@
-﻿
-
-using MyShop.Entities.Models;
+﻿using MyShop.Entities.Models;
 
 namespace MyShop.Entities.Repositories;
 
-public interface ICategoryRepository : IGenericRepository<Category>
+public interface Iproduct : IGenericRepository<Category>
 {
     void Update(Category category);
 }

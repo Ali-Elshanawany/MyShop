@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MyShop.DataAccess.Repositories;
 
-public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
+public class product : GenericRepository<Category>, Iproduct
 {
 
     private readonly ApplicationDbContext _context;
-    public CategoryRepository(ApplicationDbContext context) : base(context)
+    public product(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
