@@ -1,0 +1,49 @@
+﻿@model ShoppingCartViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Item Template</title>
+    @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> *@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/productdetails/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row">
+            <!-- Product Image Section -->
+            <div class="col-md-6">
+                <img src="~/Images/Products/@Model.Product.Image" alt="Product Image" class="product-img">
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="col-md-6">
+                <p><small>@Model.Product.Category.Name</small></p>
+                <h2 class="fw-bold">@Model.Product.Name</h2>
+
+                <!-- Price -->
+                <h4>
+                    @* <span class="text-muted text-decoration-line-through">$45.00</span> *@
+                    <span class="text-success">$@Model.Product.Price</span>
+                </h4>
+
+                <!-- Description -->
+                <p>@Model.Product.Description</p>
+
+                <!-- Quantity Selector -->
+                <div class="d-flex mb-3">
+                    <button class="btn btn-outline-primary" onclick="decreaseQuantity()">-</button>
+                    <input asp-for="Count" id="quantity" class="form-control counter-input mx-2" min="1">
+                    <button class="btn btn-outline-primary" onclick="increaseQuantity()">+</button>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button class="btn btn-primary btn-lg">Add to cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/productdetails/script.js"></script>
+</body>
+</html>
