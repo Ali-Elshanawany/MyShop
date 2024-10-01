@@ -1,0 +1,180 @@
+﻿@using MyShop.Entities.ViewModels
+@model OrderViewModel
+@using MyShop.Web.Helpers
+@{
+    ViewBag.PageTitle = "Order Details";
+    ViewBag.CardTitle = "Order Details";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link href="~/orderdetails/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container1">
+
+        <partial name="_SweetAlertView" />
+
+        <form method="post" asp-action="UpdateOrderDetails">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="pickup-details">
+
+                        <h2>PickUp Details</h2>
+
+                        <input hidden asp-for="OrderHeader.Id" />
+
+
+                        <label for="name">Name</label>
+
+                        <input asp-for="OrderHeader.Name" />
+
+                        <label for="phone">Phone</label>
+                        <input asp-for="OrderHeader.Phone">
+
+                        <label for="address">Address</label>
+                        <input asp-for="OrderHeader.Address">
+
+                        <label for="city">City</label>
+                        <input asp-for="OrderHeader.City">
+
+                        <label for="email">Email</label>
+                        <input asp-for="OrderHeader.applicationUser.Email">
+
+                        @if (Model.OrderHeader?.OrderDate != null)
+                        {
+                            <label for="order-date">Order Date</label>
+                            <input readonly type="text" id="order-date" name="order-date" value="@Model.OrderHeader.OrderDate.ToShortDateString()">
+                        }
+                        else
+                        {
+                            <label for="order-date">Order Date</label>
+                            <input readonly type="text" id="order-date" name="order-date" value="">
+                        }
+
+                        <label for="carrier">Carrier</label>
+                        <input asp-for="OrderHeader.Carrier" id="Carrier">
+
+                        <label for="tracking-number">Tracking Number</label>
+                        <input asp-for="OrderHeader.TrackingNumber" id="TrackingNumber">
+
+                        <label for="shipping-date">Shipping Date</label>
+                        <input readonly value="@Model.OrderHeader?.ShippingDate.ToShortDateString()">
+
+                        <label for="session-id">Session ID</label><br />
+                        <input asp-for="OrderHeader.SessionId">
+
+                        <label for="payment-intent-id">Payment Intent ID</label>
+                        <input asp-for="OrderHeader.PaymentIntentId">
+
+                        <label for="payment-date">Payment Date</label>
+                        <input readonly value="@Model.OrderHeader?.PaymentDate.ToShortDateString()">
+
+                        <label for="payment-status">Payment Status</label>
+                        <input asp-for="OrderHeader.PaymentStatus">
+
+                        <!-- Update Button -->
+                        <button class="update-btn" type="submit">Update Pickup Details</button>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+
+                    <div class="order-summary  ">
+                        <div class="summary-header">
+                            <div class="order-status">Order Status -@Model.OrderHeader?.OrderStatus</div>
+                        </div>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+
+
+                            <li class="list-group-item d-flex justify-content-between p-2">
+                                <div class="row container">
+                                    <div class="col-8">
+                                        <h6 class="my-0 text-primary">@item.Product.Name</h6>
+                                        <small class="text-success">Price :$@item.Product.Price </small>
+                                        <br />
+                                        <small class="text-muted">Quantity :@item.Count </small>
+                                        <br />
+                                        <small class="text-success">Total Price :$@((item.Count * item.Product.Price)) </small>
+
+
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+
+                        <!-- Order Summary Details -->
+                        <!-- Total Section -->
+                        <div class="summary-item total ">
+                            <span class="text-success">Total: $@Model.OrderHeader?.TotalPrice</span>
+                        </div>
+                        @if (Model.OrderHeader.OrderStatus == GlobalVariables.ConfirmedOrderStatus)
+                        {
+
+                            <input type="submit" asp-action="StartProcessing" class="btn btn-primary btn-md" value="Start Processing" />
+                        }
+                        @if (Model.OrderHeader.OrderStatus == GlobalVariables.Processing)
+                        {
+                            <input type="submit" asp-action="StartShipping" onclick="return CheckData()" class="btn btn-success btn-md " value="Start Shipping" />
+                        }
+                        @if (Model.OrderHeader.OrderStatus != GlobalVariables.Cancelled || Model.OrderHeader.OrderStatus != GlobalVariables.Refund)
+                        {
+
+                            <input type="submit" asp-action="CancelOrder" class="btn btn-danger btn-md" value="Cancel Order" />
+                        }
+        </form>
+
+    </div>
+
+    </div>
+    <!-- Left Section: Pickup Details -->
+    <!-- Right Section: Order Summary -->
+    </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+
+    <script>
+
+        function CheckData() {
+            if (document.getElementById("Carrier").value == "") {
+
+                Swal.fire(
+                    {
+                        position: "top-center",
+                        icon: "error",
+                        title: "There is an error ",
+                        text: "Please enter Carrier",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                return false
+            }
+            if (document.getElementById("TrackingNumber").value == "") {
+
+                Swal.fire(
+                    {
+                        position: "top-center",
+                        icon: "error",
+                        title: "There is an error ",
+                        text: "Please enter Tracking Number",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                return false
+            }
+            return true
+        }
+
+    </script>
+
+}

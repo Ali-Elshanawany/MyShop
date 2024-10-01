@@ -1,0 +1,77 @@
+﻿@model ShoppingCartViewModel
+@using Microsoft.Extensions.Options
+@inject IOptions<MyShop.Web.Helpers.StripeData> Stripe
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <link href="~/summary/style.css" rel="stylesheet" />
+
+    <link href="~/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/css/adminlte.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="containerNew">
+
+        <div class="checkout">
+            <form asp-action="Summary" method="post" asp-controller="Cart">
+                <!-- Billing Address Section -->
+                <div class="billing-address">
+                    <h2>Billing Address</h2>
+                    <label for="name">Name</label>
+                    <input asp-for="@Model.OrderHeader.Name" type="text" id="name" name="name">
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Your Email">
+
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" value="@Model.OrderHeader.City">
+
+                    <label for="phone">Phone</label>
+                    <input type="text" id="zipcode" name="Phone" value="@Model.OrderHeader.Phone">
+
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" value="@Model.OrderHeader.Address">
+
+
+
+                </div>
+                <!-- Cart Summary Section -->
+                <div class="cart-summary">
+                    <h2>Cart Summary</h2>
+                    <div class="summary-box">
+                        @foreach (var item in Model.cartList)
+                        {
+                            <div class="summary-item row-cols-lg-8">
+                                <img src="~/Images/Products/@item.Product.Image" alt="Security Icon" width="50px">
+                                <span>@item.Product.Name</span>
+                                <span class="align-content-lg-center">@item.Count</span>
+                                <span>$@item.Product.Price</span>
+                            </div>
+                        }
+
+                        <div class="summary-item total">
+                            <span>Total</span>
+                            <span>$@Model.TotalPrice</span>
+                        </div>
+                    </div>
+
+                    <div class="checkout-btns">
+                        <button type="button">Back to Shopping</button>
+                        <button asp-action="Summary" asp-controller="Cart" type="submit">Continue to Checkout</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

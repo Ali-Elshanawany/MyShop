@@ -1,0 +1,46 @@
+﻿@model IEnumerable<OrderHeader>
+
+@{
+
+    ViewBag.PageTitle = "Order Management";
+    ViewBag.CardTitle = "View Order";
+    Layout = "~/Views/Shared/_DashBoard.cshtml";
+}
+
+<h3> Order List</h3>
+
+<partial name="_SweetAlertView" />
+
+<table class="table table-hover" width="100%">
+    <tr>
+
+        <td>Id</td>
+        <td>Name</td>
+        <td>Phone Number</td>
+        <td>Email</td>
+        <td>Order Status</td>
+        <td>Total Price</td>
+        <td>Actions</td>
+    </tr>
+    @foreach (OrderHeader order in Model)
+    {
+        <tr>
+            <td>@order.Id</td>
+            <td>@order.applicationUser.Name</td>
+            <td>@order.applicationUser.PhoneNumber</td>
+            <td>@order.applicationUser.Email</td>
+            <td>@order.OrderStatus</td>
+            <td>$@order.TotalPrice</td>
+
+
+            <td>
+                @* <a href="Order/Details/@order.Id" asp-route-orderId="@order.Id" class="btn btn-primary">Details</a> *@
+                <a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary">Details</a>
+
+            </td>
+        </tr>
+    }
+
+
+</table>
+

@@ -1,0 +1,67 @@
+﻿@model ShoppingCartViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    @*     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/cartstyle/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container cart-container">
+        <div class="row">
+            <!-- Products Section -->
+            <div class="col-lg-8">
+                @foreach (var item in Model.cartList)
+                {
+                    <!-- Cart  -->
+                    <div class="row cart-item">
+                        <div class="col-3">
+                            <img src="~/Images/Products/@item.Product.Image" alt="Product Image" class="product-img">
+                        </div>
+                        <div class="col-5">
+                            <h5>Name: @item.Product.Name</h5>
+                            @* <p>Category: @item.Product.Category.Name</p> *@
+                            <p>Description:@item.Product.Description</p>
+
+                        </div>
+                        <div class="col-2">
+                            <a class="btn btn-primary" asp-action="Plus" asp-route-id="@item.Id">+</a>
+                            <span class="m-3">@item.Count</span>
+                            <a class="btn btn-primary" asp-action="Minus" asp-route-id="@item.Id">-</a>
+                        </div>
+                        <div class="col-1">
+                            <p class="fw-bold">
+                                <span class=" text-success display:inline">$</span>@item.Product.Price
+                            </p>
+                        </div>
+                        <div class="col-1">
+                            <p class="fw-bold">
+                                <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger">X</a>
+                            </p>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <!-- Summary Section -->
+            <div class="col-lg-4">
+                <div class="cart-summary">
+                    <h4>Summary</h4>
+                    @*       <p>Subtotal: <span class="float-end">$360</span></p>
+
+                    <p>Shipping: <span class="float-end">$0</span></p> *@
+                    <h4>Total: <span class="float-end">$@Model.TotalPrice.ToString()</span></h4>
+                    <a class="btn checkout-btn btn-block w-100" asp-action="Summary">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

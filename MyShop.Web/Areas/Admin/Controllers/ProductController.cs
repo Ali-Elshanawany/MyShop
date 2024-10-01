@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyShop.Entities.Models;
 using MyShop.Entities.Repositories;
@@ -8,6 +9,7 @@ using MyShop.Web.Helpers;
 namespace MyShop.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = $"Admin")]
 public class ProductController : Controller
 {
 

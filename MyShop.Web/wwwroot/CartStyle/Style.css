@@ -1,0 +1,32 @@
+﻿/* Custom Styles for Shopping Cart */
+.cart-container {
+    margin-top: 50px;
+}
+
+.product-img {
+    width: 100px;
+    height: auto;
+}
+
+.cart-summary {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+    .cart-summary h4 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+.cart-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.checkout-btn {
+    background-color: #007bff;
+    color: white;
+}

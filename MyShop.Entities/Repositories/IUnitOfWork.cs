@@ -11,6 +11,10 @@ public interface IUnitOfWork : IDisposable
 
     Iproduct category { get; }
     IProductRepository product { get; }
+    IShoppingCart shoppingCart { get; }
+    IOrderHeaderRepository OrderHeaderRepository { get; }
+    IOrderDetailsRepository OrderDetailsRepository { get; }
+    IApplicationUserRepository ApplicationUserRepository { get; }
 
     int complete();
 
